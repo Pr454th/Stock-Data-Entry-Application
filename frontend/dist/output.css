@@ -678,9 +678,9 @@ video {
   background-color: rgb(239 68 68 / var(--tw-bg-opacity));
 }
 
-.bg-red-700 {
+.bg-rose-700 {
   --tw-bg-opacity: 1;
-  background-color: rgb(185 28 28 / var(--tw-bg-opacity));
+  background-color: rgb(190 18 60 / var(--tw-bg-opacity));
 }
 
 .bg-gradient-to-r {
