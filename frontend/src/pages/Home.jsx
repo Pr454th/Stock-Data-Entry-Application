@@ -15,7 +15,7 @@ export default function Home() {
   });
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/").then((res) => {
+    axios.get("/api/").then((res) => {
       setTableData(res.data.reverse());
     });
   }, []);
@@ -279,7 +279,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={handleUpdate}
-                className="text-white bg-blue-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-md px-5 py-2.5 text-center mb-2"
+                className="text-white bg-red-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-md px-5 py-2.5 text-center mb-2"
               >
                 Update Data
               </button>
