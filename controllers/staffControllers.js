@@ -12,8 +12,8 @@ const saveStaff = (req, res) => {
     });
 };
 
-const getStaff = (req, res) => {
-  Staff.find()
+const getStaff = async (req, res) => {
+  await Staff.find()
     .then((result) => {
       res.json(result);
     })
@@ -22,7 +22,18 @@ const getStaff = (req, res) => {
     });
 };
 
+const updateStaff = async (req, res) => {
+  try {
+    console.log(req.params.id);
+    await Staff.findByIdAndUpdate(req.params.id, req.body);
+    res.json({ updated: 1 });
+  } catch (err) {
+    res.json({ message: "Error while updating staff" });
+  }
+};
+
 module.exports = {
   saveStaff,
+  updateStaff,
   getStaff,
 };

@@ -42,8 +42,19 @@ const deleteData = async (req, res) => {
   }
 };
 
+const updateData = async (req, res) => {
+  try {
+    console.log(req.params.id);
+    await Data.findByIdAndUpdate(req.params.id, req.body);
+    res.json({ updated: 1 });
+  } catch (err) {
+    res.json({ message: "Error while updating data" });
+  }
+};
+
 module.exports = {
   saveData,
   deleteData,
+  updateData,
   getData,
 };

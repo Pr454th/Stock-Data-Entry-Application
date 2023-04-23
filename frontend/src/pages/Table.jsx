@@ -16,6 +16,7 @@ export default function Table(props) {
               <th className="py-2 px-4 ">Designation</th>
               <th className="py-2 px-4 ">Qualification</th>
               <th className="py-2 px-4 ">Action</th>
+              <th className="py-2 px-4 ">Edit</th>
             </tr>
             <tr></tr>
           </thead>
@@ -61,6 +62,14 @@ export default function Table(props) {
                     className="bg-red-500 text-white px-3 py-2 rounded-3xl"
                   >
                     Delete
+                  </button>
+                </td>
+                <td className="py-2 px-4">
+                  <button
+                    className="bg-green-500 text-white px-3 py-2 rounded-3xl"
+                    onClick={() => props.handleEdit(data)}
+                  >
+                    Edit
                   </button>
                 </td>
               </tr>

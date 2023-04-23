@@ -16,11 +16,12 @@ export default function Home() {
 
   useEffect(() => {
     axios.get("http://localhost:3000/api/").then((res) => {
-      console.log(res.data);
       setTableData(res.data.reverse());
     });
   }, []);
-
+  const [update, setUpdate] = useState(false);
+  const [id, setId] = useState("");
+  const [staffId, setStaffId] = useState("");
   const [tableData, setTableData] = useState([]);
   const [statusfields, setStatusFields] = useState([""]);
   const [equipmentfields, setEquipmentFields] = useState([""]);
@@ -56,9 +57,23 @@ export default function Home() {
     }));
   };
 
+  const handleEdit = (target) => {
+    setId(target._id);
+    setStaffId(target.technicalStaff._id);
+    setEquipmentFields(target.equipmentName);
+    setStatusFields(target.utilizationStatus);
+    setFormData({
+      labName: target.labName,
+      studentPerSetup: target.studentPerSetup,
+      name: target.technicalStaff.name,
+      designation: target.technicalStaff.designation,
+      qualification: target.technicalStaff.qualification,
+    });
+    setUpdate(true);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
     formData.equipmentName = equipmentfields;
     formData.utilizationStatus = statusfields;
     axios.post("/api/", formData).then((res) => {
@@ -85,6 +100,30 @@ export default function Home() {
         setTableData(res.data.reverse());
       });
     });
+  };
+
+  const handleUpdate = () => {
+    formData.equipmentName = equipmentfields;
+    formData.utilizationStatus = statusfields;
+    axios.put(`/api/${id}`, formData).then((res) => {
+      axios.put(`/api/staff/${staffId}`, formData).then((res) => {
+        axios.get("/api/").then((res) => {
+          setTableData(res.data.reverse());
+        });
+      });
+    });
+    setEquipmentFields([""]);
+    setStatusFields([""]);
+    setFormData({
+      labName: "",
+      studentPerSetup: 0,
+      equipmentName: [],
+      utilizationStatus: [],
+      name: "",
+      designation: "",
+      qualification: "",
+    });
+    setUpdate(false);
   };
 
   return (
@@ -236,15 +275,29 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-4">
-            <button
-              type="submit"
-              className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-md px-5 py-2.5 text-center mb-2"
-            >
-              Add Data
-            </button>
+            {update ? (
+              <button
+                type="button"
+                onClick={handleUpdate}
+                className="text-white bg-blue-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-md px-5 py-2.5 text-center mb-2"
+              >
+                Update Data
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-md px-5 py-2.5 text-center mb-2"
+              >
+                Add Data
+              </button>
+            )}
           </div>
         </form>
-        <Table tableData={tableData} handleDelete={handleDelete} />
+        <Table
+          tableData={tableData}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+        />
       </div>
     </div>
   );
