@@ -10,13 +10,15 @@ export default function Table(props) {
             <tr>
               <th className=" px-4 py-2">Lab Name</th>
               <th className="py-2 px-4 ">Students Per Setup</th>
-              <th className="py-2 px-4 ">Equipments</th>
-              <th className="py-2 px-4 ">Utilization Status</th>
+              <th className="py-2 px-4 ">Odd Hours</th>
+              <th className="py-2 px-4 ">Even Hours</th>
+              <th className="py-2 px-4 ">Equipment Names</th>
+              <th className="py-2 px-4 ">Utilization Status Odd</th>
+              <th className="py-2 px-4 ">Utilization Status Even</th>
               <th className="py-2 px-4 ">Name</th>
               <th className="py-2 px-4 ">Designation</th>
               <th className="py-2 px-4 ">Qualification</th>
               <th className="py-2 px-4 ">Action</th>
-              <th className="py-2 px-4 ">Edit</th>
             </tr>
             <tr></tr>
           </thead>
@@ -25,6 +27,8 @@ export default function Table(props) {
               <tr key={index} className="border-b">
                 <td className="py-2 px-4 ">{data.labName}</td>
                 <td className="py-2 px-4 ">{data.studentPerSetup}</td>
+                <td className="py-2 px-4 ">{data.oddHours}</td>
+                <td className="py-2 px-4 ">{data.evenHours}</td>
                 <td className="py-2 px-4 ">
                   <ul className="grid grid-cols-1 gap-2">
                     {data.equipmentName.map((equipment, index) => (
@@ -32,19 +36,45 @@ export default function Table(props) {
                         key={index}
                         className="bg-gray-100 p-2 rounded-md text-gray-800"
                       >
-                        {equipment}
+                        {equipment.name}
+                        {equipment.subFields.map((subField, index) => (
+                          <p
+                            key={index}
+                            className="bg-gray-100 p-2 rounded-md text-gray-800"
+                          >
+                            {"->"}
+                            {subField.value}
+                          </p>
+                        ))}
                       </li>
                     ))}
                   </ul>
                 </td>
                 <td className="py-2 px-4 ">
                   <ul className="grid grid-cols-1 gap-2">
-                    {data.utilizationStatus.map((status, index) => (
+                    {data.utilizationStatusOdd.map((status, index) => (
                       <li
                         key={index}
                         className="bg-gray-100 p-2 rounded-md text-gray-800"
                       >
-                        {status}
+                        {status.subjectName}
+                        {"-"}
+                        {status.subjectCode}
+                      </li>
+                    ))}
+                  </ul>
+                </td>
+
+                <td className="py-2 px-4 ">
+                  <ul className="grid grid-cols-1 gap-2">
+                    {data.utilizationStatusEven.map((status, index) => (
+                      <li
+                        key={index}
+                        className="bg-gray-100 p-2 rounded-md text-gray-800"
+                      >
+                        {status.subjectName}
+                        {"-"}
+                        {status.subjectCode}
                       </li>
                     ))}
                   </ul>
@@ -62,14 +92,6 @@ export default function Table(props) {
                     className="bg-red-500 text-white px-3 py-2 rounded-3xl"
                   >
                     Delete
-                  </button>
-                </td>
-                <td className="py-2 px-4">
-                  <button
-                    className="bg-green-500 text-white px-3 py-2 rounded-3xl"
-                    onClick={() => props.handleEdit(data)}
-                  >
-                    Edit
                   </button>
                 </td>
               </tr>
