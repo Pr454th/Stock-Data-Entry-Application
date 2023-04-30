@@ -28,6 +28,7 @@ export default function Home() {
   const [id, setId] = useState("");
   const [staffId, setStaffId] = useState("");
   const [tableData, setTableData] = useState([]);
+  const [selectedLab, setSelectedLab] = useState("all");
   const [oddstatusfields, setOddStatusFields] = useState([
     {
       subjectName: "",
@@ -56,6 +57,11 @@ export default function Home() {
     const newFields = [...equipmentfields];
     newFields[index].subFields?.push({ value: "" });
     setEquipmentFields(newFields);
+  };
+
+  const handleLabChange = (e) => {
+    console.log("lab-->", e.target.value);
+    setSelectedLab(e.target.value);
   };
 
   const handleInputChange = (event, index, subIndex) => {
@@ -252,7 +258,7 @@ export default function Home() {
                 htmlFor="studentPerSetup"
                 className="block mb-2 text-sm font-medium text-gray-900"
               >
-                Number of Hourse in Odd semester
+                Number of Hour in Odd semester
               </label>
               <input
                 type="number"
@@ -264,7 +270,7 @@ export default function Home() {
             </div>
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-900">
-                Number of Hourse in Even semester
+                Number of Hour in Even semester
               </label>
               <input
                 type="number"
@@ -466,7 +472,12 @@ export default function Home() {
             )}
           </div>
         </form>
-        <Table tableData={tableData} handleDelete={handleDelete} />
+        <Table
+          tableData={tableData}
+          handleDelete={handleDelete}
+          handleLabChange={handleLabChange}
+          selectedLab={selectedLab}
+        />
       </div>
     </div>
   );
